@@ -1,0 +1,51 @@
+//
+//  {{ prefix }}{{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import UIKit
+import Typhoon
+
+class {{ module_info.name }}ModuleAssembly: TyphoonAssembly {
+    
+    // MARK:
+    // MARK: Public method
+
+    dynamic func {{ module_info.name | downcase }}Router() -> AnyObject {
+        return TyphoonDefinition.withClass({{ module_info.name }}Router.self, configuration: {
+            (definition: TyphoonDefinition!) -> Void in
+                        
+            definition.injectProperty("viewController", with: self.{{ module_info.name | downcase }}ViewController())
+        })
+    }
+    
+    dynamic func {{ module_info.name | downcase }}Presenter() -> AnyObject {
+        return TyphoonDefinition.withClass({{ module_info.name }}Presenter.self, configuration: {
+            (definition: TyphoonDefinition!) -> Void in
+            
+            definition.injectProperty("userInterface", with: self.{{ module_info.name | downcase }}ViewController())
+            definition.injectProperty("interactor", with: self.{{ module_info.name | downcase }}Interactor())
+            definition.injectProperty("router", with: self.{{ module_info.name | downcase }}Router())
+        })
+    }
+    
+    dynamic func {{ module_info.name | downcase }}Interactor() -> AnyObject {
+        return TyphoonDefinition.withClass({{ module_info.name }}Interactor.self, configuration: {
+            (definition: TyphoonDefinition!) -> Void in
+            
+            definition.injectProperty("output", with: self.{{ module_info.name | downcase }}Presenter())
+        })
+    }
+
+    dynamic func {{ module_info.name | downcase }}ViewController() -> AnyObject {
+        return TyphoonDefinition.withClass({{ module_info.name }}ViewController.self, configuration: {
+            (definition: TyphoonDefinition!) -> Void in
+            
+            definition.injectProperty("presenter", with: self.{{ module_info.name | downcase }}Presenter())
+            definition.scope = TyphoonScope.ObjectGraph
+        })
+    }
+}
