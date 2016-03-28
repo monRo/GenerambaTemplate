@@ -1,0 +1,30 @@
+# Template information section
+name: "swiject"
+summary: "VIPER module template with UIViewController playing as a View.."
+author: "Andrey Starostenko"
+version: "1.0.0"
+license: "MIT"
+
+# The declarations for code files
+code_files:
+# Router layer
+- {name: Router/Router.swift, path: Code/Router/router.swift.liquid}
+
+# View layer
+- {name: ViewController/ViewController.swift, path: Code/ViewController/viewcontroller.swift.liquid}
+
+# Presenter layer
+- {name: Presenter/Presenter.swift, path: Code/Presenter/presenter.swift.liquid}
+
+# Interactor layer
+- {name: Interactor/Interactor.swift, path: Code/Interactor/interactor.swift.liquid}
+
+# Protocol layer
+- {name: Protocols/Protocols.swift, path: Code/Protocols/protocol.swift.liquid}
+
+# Container layer
+- {name: Container/Container.swift, path: Code/Container/container.swift.liquid}
+
+# Template dependencies
+dependencies:
+- Swinject

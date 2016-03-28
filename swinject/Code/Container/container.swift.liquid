@@ -1,0 +1,41 @@
+//
+//  {{ prefix }}{{ module_info.name }}{{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+import Swinject
+
+class {{ module_info.name }}ModuleAssembly: AssemblyType {
+
+    func assemble(container: Container) {
+        container.register({{ module_info.name }}Router.self) { (resolver: ResolverType)  in
+            let router = {{ module_info.name }}Router()
+            router.viewController = resolver.resolve({{ module_info.name }}ViewController.self, argument: router)
+            return router
+        }
+        
+        container.register({{ module_info.name }}ViewController.self) { (resolver: ResolverType, router: {{ module_info.name }}Router) in
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = mainStoryboard.instantiateViewControllerWithIdentifier(String({{ module_info.name }}ViewController)) as! {{ module_info.name }}ViewController
+            viewController.presenter = resolver.resolve({{ module_info.name }}Presenter.self, arguments: (viewController as {{ module_info.name }}ViewInterface, router))
+            return viewController
+        }
+        
+        container.register({{ module_info.name }}Presenter.self) { (resolver: ResolverType, userInterface: {{ module_info.name }}ViewInterface, router: {{ module_info.name }}Router) in
+            let presenter = {{ module_info.name }}Presenter()
+            presenter.userInterface = userInterface
+            presenter.router = router
+            presenter.interactor = resolver.resolve({{ module_info.name }}Interactor.self, argument: presenter as {{ module_info.name }}InteractorOutputProtocol)
+            return presenter
+        }
+        
+        container.register({{ module_info.name }}Interactor.self) { (resolver: ResolverType, output: {{ module_info.name }}InteractorOutputProtocol) in
+            let interactor = {{ module_info.name }}Interactor()
+            interactor.output = output
+            return interactor
+        }
+    }
+}
