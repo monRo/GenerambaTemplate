@@ -22,7 +22,7 @@ class {{ module_info.name }}ModuleAssembly: AssemblyType {
             let viewController = mainStoryboard.instantiateViewControllerWithIdentifier(String({{ module_info.name }}ViewController)) as! {{ module_info.name }}ViewController
             viewController.presenter = resolver.resolve({{ module_info.name }}Presenter.self, arguments: (viewController as {{ module_info.name }}ViewInterface, router))
             return viewController
-        }
+        }.inObjectScope(ObjectScope.Graph)
         
         container.register({{ module_info.name }}Presenter.self) { (resolver: ResolverType, userInterface: {{ module_info.name }}ViewInterface, router: {{ module_info.name }}Router) in
             let presenter = {{ module_info.name }}Presenter()
